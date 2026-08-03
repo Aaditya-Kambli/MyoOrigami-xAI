@@ -26,11 +26,10 @@ I feed predictions into MuJoCo physics simulation (Shadow Hand, 20 DOF) and chec
 PyTorch, Streamlit, Plotly, MuJoCo, NumPy, SciPy
 Dataset: MOVUJS/UJI sEMG Dataset
 Sparsity: 2:4 structured pruning (19.35% model reduction)
-Run the Dashboard
 
+# Run the Dashboard
 pip install streamlit torch numpy plotly scipy
 streamlit run dashboard.py
-Team
 
-# ROBO047 — Katy Youth Hacks 2026
+# MyoOrigami-XAI — Katy Youth Hacks 2026
 # License: MIT
