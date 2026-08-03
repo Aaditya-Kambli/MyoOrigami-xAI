@@ -40,23 +40,18 @@ class OrigamiXAIController(nn.Module):
 
     def compute_channel_attribution(self, model, emg_input, initial_kin, joint_index=0):
         emg_input = emg_input.clone().detach().requires_grad_(True)
-        output = model(emg_input, initial_kin)  # Forward pass — DO NOT use torch.no_grad() here!
-        # output shape: [B, N*25, 35]. Pick the target joint.
-        target = output[0, 0, joint_index]  # First batch, first timestep, specific joint
+        output = model(emg_input, initial_kin)  
+        target = output[0, 0, joint_index]  
         target.backward(retain_graph=True)
         # Gradient shape matches input: [B, N, 25, 14]
         grad = emg_input.grad
         # Average absolute gradient over batch, windows, time → one value per channel
         channel_importance = grad.abs().mean(dim=(0, 1, 2))  # Shape: [14]
-        # Normalize to percentages so it sums to 100%
         channel_importance = channel_importance / channel_importance.sum() * 100
         return channel_importance.detach().numpy()
     
-# Run a quick test to validate the calculations
 if __name__ == "__main__":
     controller = OrigamiXAIController()
     h_data, recursion_tiers = controller.test_calculations()
     print("H Data:", h_data)
     print("Recursion Tiers:", recursion_tiers)
-
-# Test produced recursion tiers with 1s, largely due to the fact that the random data is centered around 0, leading to low variance and thus low h_data values.
