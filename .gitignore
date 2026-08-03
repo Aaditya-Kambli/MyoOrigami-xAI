@@ -1,0 +1,10 @@
+pycache/
+*.pyc
+.pth
+.npy
+data/
+checkpoints/
+test_data/
+mujoco_media/.mp4
+mujoco_media/.webm
+.env
